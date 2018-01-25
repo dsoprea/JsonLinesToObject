@@ -1,0 +1,74 @@
+#!/usr/bin/env python2.7
+
+import os
+import sys
+
+_APP_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
+sys.path.insert(0, _APP_PATH)
+
+_DESCRIPTION = "Convert a series of lines to a JSON dictionary."
+
+import json
+import argparse
+
+def _get_args():
+    parser = argparse.ArgumentParser(description=_DESCRIPTION)
+    parser.add_argument(
+        '-p', '--pad',
+        action='store_true',
+        help="If missing a value than use an empty string (we fail by default)")
+
+    parser.add_argument(
+        '-ad', '--allow-duplicates',
+        action='store_true',
+        help="Allow for non-unique key replacements (we fail by default)")
+
+    parser.add_argument(
+        '-f', '--flip',
+        action='store_true',
+        help="Flip keys for values and values for keys")
+
+    args = parser.parse_args()
+    return args
+
+def _get_pretty_json(data):
+    return json.dumps(
+        data,
+        sort_keys=True,
+        indent=4,
+        separators=(',', ': '))
+
+def _main():
+    args = _get_args()
+
+    if sys.stdin.isatty() is True:
+        print("Please provide data on STDIN.")
+        sys.exit(1)
+
+    index = {}
+    for i, line in enumerate(sys.stdin):
+        parts = line.rstrip().split(None, 1)
+        if len(parts) == 1:
+            if args.pad is False:
+                print("Line ({}) only has one part. Pass -p to automatically "
+                      "pad with empty strings: [{}]".format(i + 1, line))
+
+                sys.exit(2)
+
+            parts.append('')
+
+        if args.flip is True:
+            value, key = parts
+        else:
+            key, value = parts
+
+        if key in index and args.allow_duplicates is False:
+            print("Line ({}) has a non-unique key: [{}]".format(i + 1, key))
+            sys.exit(3)
+
+        index[key] = value
+
+    print(_get_pretty_json(index))
+
+if __name__ == '__main__':
+    _main()
