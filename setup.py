@@ -34,4 +34,7 @@ setuptools.setup(
         ],
     },
     install_requires=_REQUIREMENTS,
+    scripts=[
+        'jlto/resources/scripts/jlto',
+    ],
 )
