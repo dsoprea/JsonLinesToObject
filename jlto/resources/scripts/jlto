@@ -28,6 +28,11 @@ def _get_args():
         action='store_true',
         help="Flip keys for values and values for keys")
 
+    parser.add_argument(
+        '-sc', '--skip-comments',
+        action='store_true',
+        help="Skip any lines starting with a hash ('#')")
+
     args = parser.parse_args()
     return args
 
@@ -47,7 +52,14 @@ def _main():
 
     index = {}
     for i, line in enumerate(sys.stdin):
-        parts = line.rstrip().split(None, 1)
+        line = line.rstrip()
+        if line == '':
+            continue
+
+        if line[0] == '#' and args.skip_comments is True:
+            continue
+
+        parts = line.split(None, 1)
         if len(parts) == 1:
             if args.pad is False:
                 print("Line ({}) only has one part. Pass -p to automatically "
