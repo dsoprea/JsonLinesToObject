@@ -14,15 +14,15 @@ with open(os.path.join(_RESOURCES_PATH, 'version.txt')) as f:
     _VERSION = f.read().strip()
 
 setuptools.setup(
-    name='json_list_to_object',
+    name='json_lines_to_object',
     version=_VERSION,
-    description="Convert lists to JSON objects",
+    description="Convert raw lines to a JSON object.",
     long_description=_LONG_DESCRIPTION,
     classifiers=[],
     keywords='json',
     author='Dustin Oprea',
     author_email='myselfasunder@gmail.com',
-    url='https://github.com/dsoprea/JsonListToObject',
+    url='https://github.com/dsoprea/JsonLinesToObject',
     license='GPL 2',
     packages=setuptools.find_packages(exclude=['tests']),
     include_package_data=True,
