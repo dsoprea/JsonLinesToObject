@@ -6,6 +6,15 @@ This is a simple tool to convert whitespace-separated items on separate lines to
 
 
 -------
+Install
+-------
+
+Use PyPI::
+
+    $ pip install json_lines_to_object
+
+
+-------
 Example
 -------
 
