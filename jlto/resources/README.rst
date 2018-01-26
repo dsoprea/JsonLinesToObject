@@ -45,3 +45,12 @@ Options
 - Can be told to flip the keys and values (the values will be the keys).
 
 See command-line help for more information.
+
+
+-----
+Tests
+-----
+
+Run the test suite::
+
+    $ ./test.sh
